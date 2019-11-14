@@ -1,0 +1,14 @@
+file_client: local
+local: true
+master_type: disable
+
+file_roots:
+  base:
+    - /vagrant/salt/roots/
+pillar_roots:
+  base:
+    - /vagrant/salt/pillar/
+
+state_verbose: False
+log_level: error
+log_level_logfile: info

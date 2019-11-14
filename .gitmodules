@@ -1,0 +1,3 @@
+[submodule "salt/roots"]
+	path = salt/roots
+	url = git@github.com:tdreyer1/salt.git

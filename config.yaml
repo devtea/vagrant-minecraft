@@ -1,0 +1,15 @@
+# -*- mode: yaml -*-
+# vi: set ft=yaml :
+
+verbose_salt_output: false
+run_highstate_on_up: true
+salt_versiono: "2019.02"
+
+hosts:
+  minecraft:
+    cpu: 2
+    ram: 6000
+    ip: 172.28.128.10
+    portmap:
+      - guest: 25565
+        host: 25565
