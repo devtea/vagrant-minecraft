@@ -29,6 +29,7 @@ Vagrant.configure("2") do |vagrant_config|
   #
   vagrant_config.vm.synced_folder ".", "/vagrant", type: "virtualbox"
 
+
   ############################################
   #           Server build loop              #
   ############################################
@@ -63,6 +64,15 @@ Vagrant.configure("2") do |vagrant_config|
         salt.grains_config = "salt/grains/#{host}.yaml"
       end
     end
+  end
+
+  vagrant_config.trigger.before [:reload] do |trigger|
+    trigger.warn = "Saving world and running backup..."
+    trigger.run_remote = {inline: "cd /tmp; sudo -u minecraft /etc/systemd/system/save-server.sh; sudo systemctl stop minecraft"}
+  end
+  vagrant_config.trigger.before [:destroy, :halt] do |trigger|
+    trigger.warn = "Saving world and running backup..."
+    trigger.run_remote = {inline: "cd /tmp; sudo -u minecraft /etc/systemd/system/backup-server.sh"}
   end
 end
 
