@@ -7,9 +7,11 @@ salt_versiono: "2019.02"
 
 hosts:
   minecraft:
-    cpu: 2
-    ram: 6000
+    cpu: 4
+    ram: 8000
     ip: 172.28.128.10
     portmap:
       - guest: 25565
-        host: 25565
+        host: 20202
+      - guest: 8123
+        host: 20203
