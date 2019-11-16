@@ -1,0 +1,6 @@
+.vagrant
+backups/*
+*.jar
+*.tgz
+*.tar.gz
+server-icon.png
