@@ -1,3 +1,4 @@
 env: vagrant
 app:
   - minecraft
+  - minecraft_dynmap_reverse_proxy
