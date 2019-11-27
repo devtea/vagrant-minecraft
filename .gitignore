@@ -4,3 +4,4 @@ backups/*
 *.tgz
 *.tar.gz
 server-icon.png
+salt/files/hostsfile
