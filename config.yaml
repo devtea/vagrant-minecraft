@@ -10,6 +10,9 @@ hosts:
     cpu: 4
     ram: 8000
     ip: 172.28.128.10
+    # Size in GB - used only for creating storage disk.
+    # Disk will be dynamically allocated (thin provisioned).
+    storage: 200
     portmap:
       - guest: 25565
         host: 20202

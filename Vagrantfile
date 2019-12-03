@@ -6,6 +6,7 @@ require 'yaml'
 # Load local config files #
 ###########################
 project_path = File.dirname(__FILE__)
+secondary_disk = "./secondary.vdi"
 # Load the default config supplied with the repository
 config = YAML.load_file(File.join(project_path, 'config.yaml'))
 
@@ -36,7 +37,7 @@ Vagrant.configure("2") do |vagrant_config|
   config["hosts"].each do | host, host_properties_list |
     vagrant_config.vm.define host, primary: true do |guest|
       guest.vm.hostname = host
-      guest.vm.box = "archlinux/archlinux"
+      guest.vm.box = "arch_local"
       if host_properties_list.key?("portmap")
         host_properties_list["portmap"].each do |portmap|
           guest.vm.network "forwarded_port", guest: portmap["guest"], host: portmap["host"]
@@ -53,6 +54,10 @@ Vagrant.configure("2") do |vagrant_config|
       guest.vm.provider "virtualbox" do |v|
         v.cpus = host_properties_list["cpu"]
         v.memory = host_properties_list["ram"]
+        unless File.exist?(File.join(project_path, secondary_disk))
+          v.customize ["createhd", "--filename", File.join(project_path, secondary_disk), "--size", host_properties_list["storage"] * 1024]
+        end
+        v.customize ["storageattach", :id, "--storagectl", "IDE Controller", "--port", 1, "--device", 0, "--type", "hdd", "--medium", File.join(project_path, secondary_disk)]
       end
       guest.vm.provision :salt, :run => 'always' do |salt|
         salt.masterless = true
@@ -70,7 +75,7 @@ Vagrant.configure("2") do |vagrant_config|
     trigger.warn = "Saving world and running backup..."
     trigger.run_remote = {inline: "cd /tmp; sudo -u minecraft /etc/systemd/system/save-server.sh; sudo systemctl stop minecraft"}
   end
-  vagrant_config.trigger.before [:destroy, :halt] do |trigger|
+  vagrant_config.trigger.before [:destroy] do |trigger|
     trigger.warn = "Saving world and running backup..."
     trigger.run_remote = {inline: "cd /tmp; sudo -u minecraft /etc/systemd/system/backup-server.sh"}
   end
