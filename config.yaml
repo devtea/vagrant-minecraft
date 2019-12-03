@@ -16,6 +16,6 @@ hosts:
       - guest: 8123
         host: 20203
       - guest: 80
-        host: 20204
+        host: 80
       - guest: 443
-        host: 20205
+        host: 443
