@@ -55,9 +55,20 @@ Vagrant.configure("2") do |vagrant_config|
         v.cpus = host_properties_list["cpu"]
         v.memory = host_properties_list["ram"]
         unless File.exist?(File.join(project_path, secondary_disk))
-          v.customize ["createhd", "--filename", File.join(project_path, secondary_disk), "--size", host_properties_list["storage"] * 1024]
+          v.customize [
+            "createhd", 
+            "--filename", File.join(project_path, secondary_disk), 
+            "--size", host_properties_list["storage"] * 1024
+          ]
         end
-        v.customize ["storageattach", :id, "--storagectl", "IDE Controller", "--port", 1, "--device", 0, "--type", "hdd", "--medium", File.join(project_path, secondary_disk)]
+        v.customize [
+          "storageattach", :id, 
+          "--storagectl", "IDE Controller", 
+          "--port", 1, 
+          "--device", 0, 
+          "--type", "hdd", 
+          "--medium", File.join(project_path, secondary_disk)
+        ]
       end
       guest.vm.provision :salt, :run => 'always' do |salt|
         salt.masterless = true
