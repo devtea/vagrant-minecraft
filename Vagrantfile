@@ -54,6 +54,7 @@ Vagrant.configure("2") do |vagrant_config|
       guest.vm.provider "virtualbox" do |v|
         v.cpus = host_properties_list["cpu"]
         v.memory = host_properties_list["ram"]
+        v.default_nic_type = "virtio"
         unless File.exist?(File.join(project_path, secondary_disk))
           v.customize [
             "createhd", 
