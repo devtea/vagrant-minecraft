@@ -1,7 +1,9 @@
 .vagrant
 backups/*.tgz
+backups/plugins/
 *.jar
 *.tgz
 *.tar.gz
 server-icon.png
 salt/files/hostsfile
+*.vdi
